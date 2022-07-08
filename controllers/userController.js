@@ -35,5 +35,22 @@ const userController = {
       .then((userData) => res.json(userData))
       .catch((err) => res.status(400).json(err));
   },
+  updateUser(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    )
+      .then((userData) => {
+        if (!userData) {
+          res.status(404).json({ message: "No user found with this id!" });
+          return;
+        }
+        res.status(200).json(userData);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  },
 };
 module.exports = userController;
