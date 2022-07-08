@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const userController = {
   getAllUsers(req, res) {
-    User.find({})
+    User.find()
       .select("-__v")
       .then((userData) => res.json(userData))
       .catch((err) => {
@@ -27,7 +27,7 @@ const userController = {
       })
       .catch((err) => {
         console.log(err);
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
   createUser(req, res) {
@@ -49,7 +49,7 @@ const userController = {
         res.status(200).json(userData);
       })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
   },
   deleteUser(req, res) {
@@ -62,8 +62,23 @@ const userController = {
         res.status(200).json(userData);
       })
       .catch((err) => {
-        res.status(400).json(err);
+        res.status(500).json(err);
       });
+  },
+  addFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((userData) => {
+        if (!userData) {
+          res.status(404).json({ message: "No user found with this id!" });
+          return;
+        }
+        res.status(200).json(userData);
+      })
+      .catch((err) => res.status(500).json(err));
   },
 };
 module.exports = userController;
