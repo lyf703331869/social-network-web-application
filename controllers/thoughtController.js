@@ -85,5 +85,22 @@ const thoughtController = {
         res.status(500).json(err);
       });
   },
+  addReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $push: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((thoughtData) => {
+        if (!thoughtData) {
+          res.status(404).json({ message: "No user found with this id!" });
+          return;
+        }
+        res.status(200).json(thoughtData);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
 };
 module.exports = thoughtController;
