@@ -22,5 +22,27 @@ const thoughtController = {
         res.status(500).json(err);
       });
   },
+  createThought(req, res) {
+    Thought.create(req.body)
+      .then(({ _id }) => {
+        console.log(_id);
+        return User.findOneAndUpdate(
+          { _id: body.userId },
+          { $push: { thoughts: _id } },
+          { new: true }
+        );
+      })
+      .then((userData) => {
+        console.log(userData);
+        if (!userData) {
+          res.status(404).json({ message: "No user found with this id!" });
+          return;
+        }
+        res.status(200).json(userData);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
 };
 module.exports = thoughtController;
