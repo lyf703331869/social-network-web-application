@@ -3,7 +3,7 @@ const userController = {
   getAllUsers(req, res) {
     User.find({})
       .select("-__v")
-      .then((dbUserData) => res.json(dbUserData))
+      .then((userData) => res.json(userData))
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -18,17 +18,22 @@ const userController = {
       .populate({
         path: "thoughts",
       })
-      .then((dbUserData) => {
-        if (!dbUserData) {
+      .then((userData) => {
+        if (!userData) {
           res.status(404).json({ message: "No user found with this id!" });
           return;
         }
-        res.json(dbUserData);
+        res.json(userData);
       })
       .catch((err) => {
         console.log(err);
         res.status(400).json(err);
       });
+  },
+  createUser(req, res) {
+    User.create(req.body)
+      .then((userData) => res.json(userData))
+      .catch((err) => res.status(400).json(err));
   },
 };
 module.exports = userController;
