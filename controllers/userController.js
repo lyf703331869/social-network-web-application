@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const userController = {
+module.exports = {
   getAllUsers(req, res) {
     User.find()
       .select("-__v")
@@ -85,7 +85,7 @@ const userController = {
       .catch((err) => res.status(500).json(err));
   },
   removeFriend(eq, res) {
-    console.log("remove friend", params.friendId);
+    console.log("remove friend", req.params.friendId);
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
@@ -102,4 +102,3 @@ const userController = {
       .catch((err) => res.status(500).json(err));
   },
 };
-module.exports = userController;
