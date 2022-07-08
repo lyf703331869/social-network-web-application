@@ -13,8 +13,9 @@ const thoughtController = {
       .select("-__v")
       .then((thoughtData) => {
         if (!thoughtData) {
-          res.status(404).json({ message: "No thought found by that id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No thought found by that id!" });
         }
         res.status(200).json(thoughtData);
       })
@@ -33,8 +34,9 @@ const thoughtController = {
       })
       .then((userData) => {
         if (!userData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.status(200).json(userData);
       })
@@ -50,8 +52,9 @@ const thoughtController = {
     )
       .then((thoughtData) => {
         if (!thoughtData) {
-          res.status(404).json({ message: "No thought found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No thought found with this id!" });
         }
         res.status(200).json(thoughtData);
       })
@@ -75,8 +78,9 @@ const thoughtController = {
           { new: true }
         ).then((userData) => {
           if (!userData) {
-            res.status(404).json({ message: "No user found with this id!" });
-            return;
+            return res
+              .status(404)
+              .json({ message: "No user found with this id!" });
           }
           res.status(200).json(thoughtData);
         });
@@ -93,8 +97,27 @@ const thoughtController = {
     )
       .then((thoughtData) => {
         if (!thoughtData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
+        }
+        res.status(200).json(thoughtData);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
+  removeReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    )
+      .then((thoughtData) => {
+        if (!thoughtData) {
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.status(200).json(thoughtData);
       })

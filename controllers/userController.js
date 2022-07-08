@@ -20,8 +20,9 @@ const userController = {
       })
       .then((userData) => {
         if (!userData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.json(userData);
       })
@@ -43,8 +44,9 @@ const userController = {
     )
       .then((userData) => {
         if (!userData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.status(200).json(userData);
       })
@@ -56,8 +58,9 @@ const userController = {
     User.findOneAndDelete({ _id: req.params.userId })
       .then((userData) => {
         if (!userData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.status(200).json(userData);
       })
@@ -73,8 +76,9 @@ const userController = {
     )
       .then((userData) => {
         if (!userData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.status(200).json(userData);
       })
@@ -89,8 +93,9 @@ const userController = {
     )
       .then((userData) => {
         if (!userData) {
-          res.status(404).json({ message: "No user found with this id!" });
-          return;
+          return res
+            .status(404)
+            .json({ message: "No user found with this id!" });
         }
         res.status(200).json(userData);
       })
