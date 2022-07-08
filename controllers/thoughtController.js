@@ -3,7 +3,7 @@ const thoughtController = {
   getAllThoughts(req, res) {
     Thought.find()
       .select("-__v")
-      .then((userData) => res.status(200).json(userData))
+      .then((thoughtData) => res.status(200).json(thoughtData))
       .catch((err) => {
         res.status(500).json(err);
       });
@@ -11,12 +11,12 @@ const thoughtController = {
   getOneThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .select("-__v")
-      .then((userData) => {
-        if (!userData) {
+      .then((thoughtData) => {
+        if (!thoughtData) {
           res.status(404).json({ message: "No thought found by that id!" });
           return;
         }
-        res.status(200).json(userData);
+        res.status(200).json(thoughtData);
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -48,12 +48,38 @@ const thoughtController = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((userData) => {
-        if (!userData) {
+      .then((thoughtData) => {
+        if (!thoughtData) {
           res.status(404).json({ message: "No thought found with this id!" });
           return;
         }
-        res.status(200).json(userData);
+        res.status(200).json(thoughtData);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
+  deleteThought(req, res) {
+    Thought.findOneAndDelete(
+      { _id: req.params.thoughtId },
+      { $pull: { thoughts: req.params.thoughtId } },
+      { new: true }
+    )
+      .then((thoughtData) => {
+        if (!thoughtData) {
+          return res.status(404).json({ message: "No thought with this id!" });
+        }
+        User.findOneAndUpdate(
+          { thoughts: req.params.thoughtId },
+          { $pull: { thoughts: req.params.thoughtId } },
+          { new: true }
+        ).then((userData) => {
+          if (!userData) {
+            res.status(404).json({ message: "No user found with this id!" });
+            return;
+          }
+          res.status(200).json(thoughtData);
+        });
       })
       .catch((err) => {
         res.status(500).json(err);
