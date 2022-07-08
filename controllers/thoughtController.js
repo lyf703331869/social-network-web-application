@@ -1,7 +1,7 @@
 const { Thought, User } = require("../models");
 module.exports = {
   getAllThoughts(req, res) {
-    Thought.find()
+    Thought.find({})
       .select("-__v")
       .then((thoughtData) => res.status(200).json(thoughtData))
       .catch((err) => {

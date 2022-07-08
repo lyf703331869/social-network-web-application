@@ -5,7 +5,6 @@ module.exports = {
       .select("-__v")
       .then((userData) => res.json(userData))
       .catch((err) => {
-        console.log(err);
         res.status(500).json(err);
       });
   },
@@ -27,7 +26,6 @@ module.exports = {
         res.json(userData);
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).json(err);
       });
   },

@@ -12,7 +12,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (timestamp) => moment.format(timestamp, "YYYY/MM/DD"),
+      get: () => moment().format("MMMM Do YYYY, h:mm:ss a"),
     },
     username: {
       type: String,
