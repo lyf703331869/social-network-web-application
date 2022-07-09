@@ -1,7 +1,7 @@
 const { Thought, User } = require("../models");
 module.exports = {
   getAllThoughts(req, res) {
-    Thought.find({})
+    Thought.find()
       .select("-__v")
       .then((thoughtData) => res.status(200).json(thoughtData))
       .catch((err) => {
@@ -63,11 +63,7 @@ module.exports = {
       });
   },
   deleteThought(req, res) {
-    Thought.findOneAndDelete(
-      { _id: req.params.thoughtId },
-      { $pull: { thoughts: req.params.thoughtId } },
-      { new: true }
-    )
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thoughtData) => {
         if (!thoughtData) {
           return res.status(404).json({ message: "No thought with this id!" });

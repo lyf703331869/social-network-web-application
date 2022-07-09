@@ -82,8 +82,7 @@ module.exports = {
       })
       .catch((err) => res.status(500).json(err));
   },
-  removeFriend(eq, res) {
-    console.log("remove friend", req.params.friendId);
+  removeFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
