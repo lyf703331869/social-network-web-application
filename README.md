@@ -27,6 +27,8 @@
   ## Walkthrough
   Please check the walkthrough video [here](https://www.youtube.com/watch?v=9cX8DUv1EG0)
 
+<img width="1438" alt="image" src="https://user-images.githubusercontent.com/103960619/178124150-9a0e34c5-53ad-4aa4-a6f6-5adb19fa27c2.png">
+
 
   ## Questions
   
